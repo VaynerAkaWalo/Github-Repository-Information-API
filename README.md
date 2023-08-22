@@ -54,19 +54,19 @@ Endpoint: `GET /api/repositories/{username}`
 #### Response
 
 ```javascript
-    [
-      {
-        "name": "repository-name",
-        "owner_login": "login",
-        "branches": [
-          {
+[
+   {
+      "name": "repository-name",
+      "owner_login": "login",
+      "branches": [
+         {
             "name": "branch-name",
             "sha": "commit-sha"
-          },
-          ...
-        ]
-      },
-      ...
+         },
+         ...
+      ]
+   },
+   ...
 ]
 
 ```
