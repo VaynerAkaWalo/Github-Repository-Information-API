@@ -15,12 +15,17 @@ public class RepositoryService {
     private final GithubAPIProxy githubAPIProxy;
     private final BranchService branchService;
 
-    public RepositoryService(GithubAPIProxy githubAPIProxy, BranchService branchService) {
+    private final UserService userService;
+
+    public RepositoryService(GithubAPIProxy githubAPIProxy, BranchService branchService, UserService userService) {
         this.githubAPIProxy = githubAPIProxy;
         this.branchService = branchService;
+        this.userService = userService;
     }
 
     public List<RepositoryDTO> getAllByUsername(String username) {
+        userService.CheckIfUserExist(username);
+
         return getRepositoriesFromApi(username)
                 .stream()
                 .map(RepositoryDTO::mapToDTO)
