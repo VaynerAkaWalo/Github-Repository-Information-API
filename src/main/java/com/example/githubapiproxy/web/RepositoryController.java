@@ -1,6 +1,6 @@
 package com.example.githubapiproxy.web;
 
-import com.example.githubapiproxy.model.github.Repository;
+import com.example.githubapiproxy.model.dto.RepositoryDTO;
 import com.example.githubapiproxy.services.RepositoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,8 @@ public class RepositoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Repository>> repositories(@RequestParam String username) {
-        List<Repository> repositories = repositoryService.getAllByUsername(username);
+    public ResponseEntity<List<RepositoryDTO>> repositories(@RequestParam String username) {
+        List<RepositoryDTO> repositories = repositoryService.getAllByUsername(username);
         return ResponseEntity.ok(repositories);
     }
 }

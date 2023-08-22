@@ -1,5 +1,6 @@
 package com.example.githubapiproxy.services;
 
+import com.example.githubapiproxy.model.dto.RepositoryDTO;
 import com.example.githubapiproxy.model.github.RepositoriesPage;
 import com.example.githubapiproxy.model.github.Repository;
 import com.example.githubapiproxy.proxy.GithubAPIProxy;
@@ -19,8 +20,11 @@ public class RepositoryService {
         this.branchService = branchService;
     }
 
-    public List<Repository> getAllByUsername(String username) {
-        return getRepositoriesFromApi(username);
+    public List<RepositoryDTO> getAllByUsername(String username) {
+        return getRepositoriesFromApi(username)
+                .stream()
+                .map(RepositoryDTO::mapToDTO)
+                .toList();
     }
 
     private List<Repository> getRepositoriesFromApi(String username) {
@@ -43,6 +47,6 @@ public class RepositoryService {
     }
 
     private void populateRepositoryWithBranchData(List<Repository> repositories) {
-        repositories.forEach(x -> x.setBranches(branchService.getRepositoryBranches(x.getName())));
+        repositories.forEach(x -> x.setBranches(branchService.getRepositoryBranches(x.getFullName())));
     }
 }

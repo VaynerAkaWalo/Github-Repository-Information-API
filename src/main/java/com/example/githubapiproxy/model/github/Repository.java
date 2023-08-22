@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import java.util.List;
 
 public class Repository {
-    @JsonAlias(value = "full_name")
+
     private String name;
+
+    @JsonAlias(value = "full_name")
+    private String fullName;
 
     private Owner owner;
 
@@ -38,5 +41,13 @@ public class Repository {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
