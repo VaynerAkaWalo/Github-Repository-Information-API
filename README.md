@@ -52,7 +52,7 @@ Endpoint: `GET /api/repositories/{username}`
 
 #### Response
 
-```json lines
+```javascript
     [
       {
         "name": "repository-name",
