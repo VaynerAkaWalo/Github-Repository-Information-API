@@ -38,17 +38,18 @@ Before you start using the GitHub Repository Information API, make sure you have
 ```
 
 ### Usage
+
 List Repositories for a GitHub User
 
 Endpoint: `GET /api/repositories/{username}`
 
 #### Parameters
+
 * `username` (required): GitHub username for which to list repositories.
 
-
 #### Headers
-* `Accept: application/json` (required): To receive the response in JSON format.
 
+* `Accept: application/json` (required): To receive the response in JSON format.
 
 #### Response
 
