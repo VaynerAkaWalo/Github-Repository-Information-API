@@ -14,7 +14,6 @@ public class RepositoryService {
 
     private final GithubAPIProxy githubAPIProxy;
     private final BranchService branchService;
-
     private final UserService userService;
 
     public RepositoryService(GithubAPIProxy githubAPIProxy, BranchService branchService, UserService userService) {
