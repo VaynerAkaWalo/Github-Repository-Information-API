@@ -29,4 +29,11 @@ public class RESTExceptionHandlers {
                 .headers(headers)
                 .body(new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), "Requested content format unavailable!"));
     }
+
+    @ExceptionHandler(FeignException.Forbidden.class)
+    public ResponseEntity<ErrorMessage> RateLimitExceededHandler() {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorMessage(HttpStatus.FORBIDDEN.value(), "Rate limit exceeded!"));
+    }
 }
