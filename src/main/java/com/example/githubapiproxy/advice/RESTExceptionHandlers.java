@@ -16,7 +16,7 @@ public class RESTExceptionHandlers {
     public ResponseEntity<?> NotFoundExceptionHandler() {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorMessage(HttpStatus.NOT_FOUND.value(), "User with specified username not found!"));
+                .body(new ErrorMessage(HttpStatus.NOT_FOUND.value(), "User not found"));
     }
 
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
@@ -27,7 +27,7 @@ public class RESTExceptionHandlers {
         return ResponseEntity
                 .status(HttpStatus.NOT_ACCEPTABLE)
                 .headers(headers)
-                .body(new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), "Requested content format unavailable!"));
+                .body(new ErrorMessage(HttpStatus.NOT_ACCEPTABLE.value(), "Unsupported media type"));
     }
 
     @ExceptionHandler(FeignException.Forbidden.class)
