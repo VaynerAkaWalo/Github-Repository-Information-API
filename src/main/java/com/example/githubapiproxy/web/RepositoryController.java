@@ -2,6 +2,7 @@ package com.example.githubapiproxy.web;
 
 import com.example.githubapiproxy.model.dto.RepositoryDTO;
 import com.example.githubapiproxy.services.RepositoryService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/repositories")
+@RequestMapping(
+        value = "/api/repositories",
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class RepositoryController {
 
     private final RepositoryService repositoryService;
