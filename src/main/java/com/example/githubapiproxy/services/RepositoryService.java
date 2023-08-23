@@ -1,6 +1,7 @@
 package com.example.githubapiproxy.services;
 
 import com.example.githubapiproxy.model.dto.RepositoryDTO;
+import com.example.githubapiproxy.model.github.Branch;
 import com.example.githubapiproxy.model.github.RepositoriesPage;
 import com.example.githubapiproxy.model.github.Repository;
 import com.example.githubapiproxy.proxy.GithubAPIProxy;
@@ -13,21 +14,20 @@ import java.util.List;
 public class RepositoryService {
 
     private final GithubAPIProxy githubAPIProxy;
-    private final BranchService branchService;
-    private final UserService userService;
 
-    public RepositoryService(GithubAPIProxy githubAPIProxy, BranchService branchService, UserService userService) {
+    public RepositoryService(GithubAPIProxy githubAPIProxy) {
         this.githubAPIProxy = githubAPIProxy;
-        this.branchService = branchService;
-        this.userService = userService;
     }
 
     public List<RepositoryDTO> getAllByUsername(String username) {
-        userService.CheckIfUserExist(username);
+        githubAPIProxy.checkIfUserExists(username);
 
         return getRepositoriesFromApi(username)
                 .stream()
-                .map(RepositoryDTO::mapToDTO)
+                .map(repository -> {
+                    List<Branch> branches = getBranchesFromAPI(repository.fullName());
+                    return RepositoryDTO.mapToDTO(repository, branches);
+                })
                 .toList();
     }
 
@@ -35,22 +35,20 @@ public class RepositoryService {
         List<Repository> repositories = new LinkedList<>();
 
         RepositoriesPage page = githubAPIProxy.fetchUserRepositories(username, 0);
-        int numberOfRepositories = page.getTotal_count();
+        int numberOfRepositories = page.totalCount();
         int currentPage = 0;
 
-        while (repositories.size() < numberOfRepositories && page.getRepositories().size() > 0) {
+        while (repositories.size() < numberOfRepositories && !page.repositories().isEmpty()) {
             page = githubAPIProxy.fetchUserRepositories(username, currentPage);
 
-            populateRepositoryWithBranchData(page.getRepositories());
-
-            repositories.addAll(page.getRepositories());
+            repositories.addAll(page.repositories());
             currentPage++;
         }
 
         return repositories;
     }
 
-    private void populateRepositoryWithBranchData(List<Repository> repositories) {
-        repositories.forEach(x -> x.setBranches(branchService.getRepositoryBranches(x.getFullName())));
+    private List<Branch> getBranchesFromAPI(String repositoryName) {
+        return githubAPIProxy.fetchBranchInfo(repositoryName);
     }
 }
